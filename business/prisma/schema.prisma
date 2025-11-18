@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Business {
+  id            Int    @id @default(autoincrement())
+  business_name          String
+  company_name  String
+  type_business Int
+  email         String
+  phone         String
+  whatsapp      String
+  address       String
+  address_2     String
+  terms_agreed  Int    @db.TinyInt
+  plan          Int
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  active Int @db.TinyInt
+
+  @@map("business")
+}
+
+enum TypePlan {
+  monthly
+  annual
+}
+
+model Plan {
+  id              Int      @id @default(autoincrement())
+  name            String
+  description     String
+  vigency         TypePlan
+  pay_day         Int
+  monthly_fee     Decimal  @db.Decimal(10, 2)
+  annual_price    Decimal  @db.Decimal(12, 2)
+  start_date      DateTime
+  expiration_date DateTime
+
+  @@map("plans")
+}
+
+model TypeBusiness {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+
+  @@map("type_business")
+}
