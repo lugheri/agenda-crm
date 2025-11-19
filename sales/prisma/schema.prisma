@@ -59,7 +59,7 @@ model FileLibrary {
   @@map("library_files")
 }
 
-model Service {
+model Product {
   id          Int @id @default(autoincrement())
   business_id Int
 
@@ -67,7 +67,7 @@ model Service {
   description      String?
   duration_minutes Int
   professional     Int
-  price            Decimal? @db.Decimal(10, 2)
+  price            Decimal @db.Decimal(10, 2)
 
   color_tag String @default("#3B82F6") @db.VarChar(7)
 
@@ -76,7 +76,7 @@ model Service {
 
   active Int @db.TinyInt
 
-  @@map("services")
+  @@map("products")
 }
 
 model Customer {
