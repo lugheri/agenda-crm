@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Professional {
+  id            Int         @id @default(autoincrement())
+  business_id   Int
+  name          String
+  email         String
+  phone         String
+  whatsapp      String
+  photo_profile Int?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime?   @updatedAt
+  active        Int         @db.TinyInt
+  Specialty     Specialty[] @relation("ProfessionalSpecialties")
+
+  fileLibrary FileLibrary? @relation(fields: [photo_profile], references: [id], onDelete: Cascade)
+
+  @@map("professionals")
+}
+
+model Specialty {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String @db.Text
+  active      Int    @db.TinyInt
+
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime? @updatedAt @map("updated_at")
+
+  professional Professional[] @relation("ProfessionalSpecialties")
+
+  @@map("specialties")
+}
+
+enum TypeFile {
+  image
+  doc
+}
+
+model FileLibrary {
+  id   Int      @id @default(autoincrement())
+  name String
+  file String   @db.Text
+  type TypeFile
+
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime? @updatedAt @map("updated_at")
+
+  active        Int            @db.TinyInt
+  professionals Professional[]
+
+  @@map("library_files")
+}
+
+model Service {
+  id          Int @id @default(autoincrement())
+  business_id Int
+
+  name             String
+  description      String?
+  duration_minutes Int
+  professional     Int
+  price            Decimal? @db.Decimal(10, 2)
+
+  color_tag String @default("#3B82F6") @db.VarChar(7)
+
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime? @updatedAt @map("updated_at")
+
+  active Int @db.TinyInt
+
+  @@map("services")
+}
+
+model Customer {
+  id          Int       @id @default(autoincrement())
+  business_id Int
+  name        String
+  email       String
+  phone       String
+  whatsapp    String
+  notes       String?
+  created_at  DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime? @updatedAt @map("updated_at")
+
+  @@map("customers")
+}
