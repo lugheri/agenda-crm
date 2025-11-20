@@ -9,7 +9,7 @@ datasource db {
 
 model Business {
   id            Int    @id @default(autoincrement())
-  business_name          String
+  business_name String
   company_name  String
   type_business Int
   email         String
@@ -53,4 +53,21 @@ model TypeBusiness {
   description String
 
   @@map("type_business")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  business_id   Int
+  name          String
+  email         String
+  phone         String
+  whatsapp      String
+  password      String
+  reset         Int       @db.TinyInt
+  photo_profile Int?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime? @updatedAt
+  active        Int       @db.TinyInt
+
+  @@map("users")
 }
