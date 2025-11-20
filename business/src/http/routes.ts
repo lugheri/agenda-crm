@@ -4,6 +4,7 @@ import { FastifyInstance } from 'fastify'
 import authMiddleware from './middlewares/auth'
 import planRoute from '@/_modules/plans/routes/plan.route'
 import typeBusinessRoute from '@/_modules/type_business/routes/type-business.route'
+import userRoute from '@/_modules/user/routes/user.route'
 
 export const serviceRoutes = async (app: FastifyInstance) => {
   app.get('/checkLiveBusiness', checkLive)
@@ -12,5 +13,6 @@ export const serviceRoutes = async (app: FastifyInstance) => {
     businessRoute(protectedRoutes)
     planRoute(protectedRoutes)
     typeBusinessRoute(protectedRoutes)
+    userRoute(protectedRoutes)
   })
 }
